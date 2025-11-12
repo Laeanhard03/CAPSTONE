@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'login_register.dart'; // Import the new views
+import 'shared_widgets.dart'; // Import the shared widgets
 
 // -------------------------------------------
 // ----- overview.dart -----
@@ -59,7 +61,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 key: ValueKey('overview'),
                 onNavigate: () => _setView(AuthView.login),
               ),
-            AuthView.login => _LoginView(
+            AuthView.login => LoginView( // Changed from _LoginView
                 key: ValueKey('login'),
                 onNavigateToRegister: () => _setView(AuthView.register),
                 onLogin: (role) {
@@ -68,7 +70,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 },
                 onGuestLogin: () => _navigateToDashboard('Guest'),
               ),
-            AuthView.register => _RegisterView(
+            AuthView.register => RegisterView( // Changed from _RegisterView
                 key: ValueKey('register'),
                 onNavigateToLogin: () => _setView(AuthView.login),
                 onRegister: () {
@@ -127,256 +129,41 @@ class _OverviewView extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         SizedBox(height: 16),
-        _FeatureCard(
+        FeatureCard(
           title: 'Track Your Grades',
           description: 'Students can monitor academic progress in real-time.',
         ),
-        _FeatureCard(
+        FeatureCard(
           title: 'Faculty Tools',
           description: 'Faculty can easily manage classes and submit grades.',
         ),
-        _FeatureCard(
+        FeatureCard(
           title: 'Performance Analytics',
           description: 'Administration can view detailed academic statistics.',
         ),
         // --- Expanded Content ---
-        _FeatureCard(
+        FeatureCard(
           title: 'Parent Portal',
           description: 'Parents can view attendance and grade summaries.',
         ),
-        _FeatureCard(
+        FeatureCard(
           title: 'Alumni Network',
           description: 'Connect with graduates and find opportunities.',
         ),
-        _FeatureCard(
+        FeatureCard(
           title: 'Library Access',
           description: 'Access the digital library and resource catalog.',
         ),
-        _FeatureCard(
+        FeatureCard(
           title: 'Event Calendar',
           description: 'Stay updated on all campus events and holidays.',
         ),
-        _FeatureCard(
+        FeatureCard(
           title: 'Support Center',
           description: 'Get help from IT, an registrar, or counseling.',
         ),
         SizedBox(height: 40),
       ],
-    );
-  }
-}
-
-class _FeatureCard extends StatelessWidget {
-  final String title;
-  final String description;
-
-  const _FeatureCard({
-    required this.title,
-    required this.description,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
-            SizedBox(height: 4),
-            Text(description, style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ----- View 2: Login -----
-class _LoginView extends StatelessWidget {
-  final VoidCallback onNavigateToRegister;
-  final VoidCallback onGuestLogin;
-  final Function(String) onLogin;
-
-  const _LoginView({
-    super.key,
-    required this.onNavigateToRegister,
-    required this.onLogin,
-    required this.onGuestLogin,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: 80),
-          Text(
-            'Portal Login',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          SizedBox(height: 40),
-          CustomTextField(
-            hintText: 'Email Address',
-          ),
-          SizedBox(height: 16),
-          CustomTextField(
-            hintText: 'Password',
-            isPassword: true,
-          ),
-          SizedBox(height: 32),
-          CustomButton(
-            text: 'Student Login',
-            onPressed: () => onLogin('Student'),
-          ),
-          SizedBox(height: 16),
-          CustomButton(
-            text: 'Faculty Login',
-            onPressed: () => onLogin('Faculty'),
-          ),
-          SizedBox(height: 16),
-          CustomButton(
-            text: 'Admin Login',
-            onPressed: () => onLogin('Admin'),
-          ),
-          SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Need an account?'),
-              TextButton(
-                onPressed: onNavigateToRegister,
-                child: Text('Register'),
-              ),
-            ],
-          ),
-          TextButton(
-            onPressed: onGuestLogin,
-            child: Text('Continue as Guest'),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ----- View 3: Register -----
-class _RegisterView extends StatelessWidget {
-  final VoidCallback onNavigateToLogin;
-  final VoidCallback onRegister;
-
-  const _RegisterView({
-    super.key,
-    required this.onNavigateToLogin,
-    required this.onRegister,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: 60),
-          Text(
-            'Create Account',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          SizedBox(height: 40),
-          CustomTextField(
-            hintText: 'Full Name',
-          ),
-          SizedBox(height: 16),
-          CustomTextField(
-            hintText: 'Email Address',
-          ),
-          SizedBox(height: 16),
-          CustomTextField(
-            hintText: 'Password',
-            isPassword: true,
-          ),
-          SizedBox(height: 16),
-          CustomTextField(
-            hintText: 'Confirm Password',
-            isPassword: true,
-          ),
-          SizedBox(height: 32),
-          CustomButton(
-            text: 'Register',
-            onPressed: onRegister,
-          ),
-          SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Already have an account?'),
-              TextButton(
-                onPressed: onNavigateToLogin,
-                child: Text('Login'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// -------------------------------------------
-// ----- widgets/custom_button.dart -----
-// -------------------------------------------
-// A reusable, styled button for our app. (Styling removed)
-
-class CustomButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-
-  const CustomButton({
-    super.key,
-    required this.text,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 18),
-      ),
-      onPressed: onPressed,
-      child: Text(text),
-    );
-  }
-}
-
-// -------------------------------------------
-// ----- widgets/custom_textfield.dart -----
-// -------------------------------------------
-// A reusable, styled text field. (Styling removed)
-
-class CustomTextField extends StatelessWidget {
-  final String hintText;
-  final bool isPassword;
-
-  const CustomTextField({
-    super.key,
-    required this.hintText,
-    this.isPassword = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      obscureText: isPassword,
-      decoration: InputDecoration(
-        hintText: hintText,
-      ),
     );
   }
 }
